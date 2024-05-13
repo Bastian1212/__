@@ -5,15 +5,33 @@
     <id>http://www.zotero.org/styles/estilo-personalizado-completo-apa</id>
     <updated>2024-05-14T00:00:00+00:00</updated>
     <author>
-      <name>Bastian Villanueva</name>
+      <name>Bastian villanueva</name>
       <email>bastianvillanueva@me.com</email>
     </author>
     <category citation-format="author-date"/>
     <category field="generic-base"/>
   </info>
 
-  <!-- Aquí se incluyen todos los macros que has definido -->
   <macro name="author-single">
+    <names variable="author">
+      <name form="long" and="text" initialize-with=". " delimiter=", " delimiter-precedes-last="always"/>
+    </names>
+  </macro>
+
+  <macro name="author-multiple">
+    <names variable="author">
+      <name form="long" and="text" initialize-with=". " delimiter=", " delimiter-precedes-last="always"/>
+    </names>
+  </macro>
+
+  <macro name="editor">
+    <names variable="editor">
+      <name form="long" and="text" initialize-with=". " delimiter=", " delimiter-precedes-last="always"/>
+      <label form="short" prefix=", " suffix=" (Eds.)"/>
+    </names>
+  </macro>
+
+  <macro name="chapter-author">
     <names variable="author">
       <name form="long" and="text" initialize-with=". " delimiter=", " delimiter-precedes-last="always"/>
     </names>
@@ -26,31 +44,118 @@
     </group>
   </macro>
 
-  <!-- Más macros según lo que has definido previamente -->
+  <macro name="web-title">
+    <text variable="title"/>
+  </macro>
+
+  <macro name="accessed">
+    <group prefix="Accedido el " delimiter=", ">
+      <date variable="accessed">
+        <date-part name="day" suffix=" de "/>
+        <date-part name="month" form="long" suffix=" de "/>
+        <date-part name="year"/>
+      </date>
+    </group>
+  </macro>
+
+  <macro name="journal-article-title">
+    <text variable="title"/>
+  </macro>
+
+  <macro name="journal-info">
+    <group delimiter=", ">
+      <text variable="container-title" font-style="italic"/>
+      <group delimiter=" ">
+        <text variable="volume" prefix="vol. "/>
+        <text variable="issue" prefix="no. "/>
+      </group>
+      <text variable="page" prefix="p. "/>
+    </group>
+  </macro>
 
   <!-- Citation Layout -->
   <citation>
-    <layout>
-      <!-- Insertar el código para el formato de la cita aquí -->
-      <group delimiter=". ">
-        <text macro="author-single"/>
-        <date variable="issued" form="text" date-parts="year"/>
-        <text variable="title" font-style="italic"/>
-        <text macro="published"/>
-      </group>
+    <layout delimiter=". ">
+      <choose>
+        <if type="book" match="any">
+          <group delimiter=". ">
+            <text macro="author-single"/>
+            <date variable="issued" form="text" date-parts="year"/>
+            <text variable="title" font-style="italic"/>
+            <text macro="published"/>
+          </group>
+        </if>
+        <else-if type="chapter">
+          <group delimiter=". ">
+            <text macro="chapter-author"/>
+            <date variable="issued" form="text" date-parts="year"/>
+            <text variable="title" prefix="En " suffix=", "/>
+            <text macro="editor"/>
+            <text variable="container-title" font-style="italic"/>
+            <text variable="page" prefix="pp. "/>
+            <text macro="published"/>
+          </group>
+        </else-if>
+        <else-if type="webpage">
+          <group delimiter=". ">
+            <text macro="web-title"/>
+            <text macro="accessed"/>
+            <text variable="URL" prefix="desde "/>
+          </group>
+        </else-if>
+        <else-if type="article-journal" match="any">
+          <group delimiter=". ">
+            <text macro="author-multiple"/>
+            <text macro="journal-article-title"/>
+            <text macro="journal-info"/>
+            <text macro="accessed"/>
+            <text variable="URL" prefix="Disponible: "/>
+          </group>
+        </else-if>
+      </choose>
     </layout>
   </citation>
 
   <!-- Bibliography Layout -->
   <bibliography>
-    <layout>
-      <!-- Insertar el código para el formato de la bibliografía aquí -->
-      <group delimiter=". ">
-        <text macro="author-single"/>
-        <date variable="issued" form="text" date-parts="year"/>
-        <text variable="title" font-style="italic"/>
-        <text macro="published"/>
-      </group>
+    <layout delimiter=". ">
+      <choose>
+        <if type="book" match="any">
+          <group delimiter=". ">
+            <text macro="author-single"/>
+            <date variable="issued" form="text" date-parts="year"/>
+            <text variable="title" font-style="italic"/>
+            <text macro="published"/>
+          </group>
+        </if>
+        <else-if type="chapter">
+          <group delimiter=". ">
+            <text macro="chapter-author"/>
+            <date variable="issued" form="text" date-parts="year"/>
+            <text variable="title" prefix="En " suffix=", "/>
+            <text macro="editor"/>
+            <text variable="container-title" font-style="italic"/>
+            <text variable="page" prefix="pp. "/>
+            <text macro="published"/>
+          </group>
+        </else-if>
+        <else-if type="webpage">
+          <group delimiter=". ">
+            <text macro="web-title"/>
+            <text macro="accessed"/>
+            <text variable="URL" prefix="desde "/>
+          </group>
+        </else-if>
+        <else-if type="article-journal" match="any">
+          <group delimiter=". ">
+            <text macro="author-multiple"/>
+            <text macro="journal-article-title"/>
+            <text macro="journal-info"/>
+            <text macro="accessed"/>
+            <text variable="URL" prefix="Disponible: "/>
+          </group>
+        </else-if>
+      </choose>
     </layout>
   </bibliography>
 </style>
