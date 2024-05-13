@@ -1,71 +1,133 @@
-<?xml version="1.0" encoding="utf-8"?>
-<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="never">
-  <info>
-    <title>APA Personalizado</title>
-    <id>unique-style-apa-custom</id>
-    <updated>2024-05-13T13:31:11+00:00</updated>
-  </info>
-  
-  <!-- Macros -->
-  <macro name="author">
-    <names variable="author">
-      <name and="text" delimiter=", " name-as-sort-order="all" sort-separator=", " initialize-with=". " delimiter-precedes-last="always"/>
-      <label form="short" prefix=", " text-case="capitalize-first"/>
-      <substitute>
-        <names variable="editor"/>
-      </substitute>
-    </names>
-  </macro>
-  
-  <macro name="editor">
-    <names variable="editor">
-      <name and="text"/>
-      <label form="short" prefix=", " text-case="capitalize-first" suffix=" (Eds.)"/>
-    </names>
-  </macro>
-  
-  <macro name="issued">
-    <date variable="issued" prefix="(" suffix=").">
+<macro name="author-single">
+  <names variable="author">
+    <name form="long" and="text" initialize-with=". " delimiter=", " delimiter-precedes-last="always"/>
+  </names>
+</macro>
+
+<macro name="published">
+  <group delimiter=": ">
+    <text variable="publisher-place"/>
+    <text variable="publisher"/>
+  </group>
+</macro>
+
+<macro name="citation-book-single-author">
+  <group delimiter=". ">
+    <text macro="author-single"/>
+    <date variable="issued" form="text" date-parts="year"/>
+    <text variable="title" font-style="italic"/>
+    <text macro="published"/>
+  </group>
+</macro>
+
+<macro name="author-multiple">
+  <names variable="author">
+    <name form="long" and="text" initialize-with=". " delimiter=", " delimiter-precedes-last="always"/>
+  </names>
+</macro>
+
+<macro name="citation-book-multiple-authors">
+  <group delimiter=". ">
+    <text macro="author-multiple"/>
+    <date variable="issued" form="text" date-parts="year"/>
+    <text variable="title" font-style="italic"/>
+    <text macro="published"/>
+  </group>
+</macro>
+
+
+<macro name="editor">
+  <names variable="editor">
+    <name form="long" and="text" initialize-with=". " delimiter=", " delimiter-precedes-last="always"/>
+    <label form="short" prefix=", " suffix=" (Eds.)"/>
+  </names>
+</macro>
+
+<macro name="citation-edited-book">
+  <group delimiter=". ">
+    <text macro="editor"/>
+    <date variable="issued" form="text" date-parts="year"/>
+    <text variable="title" font-style="italic"/>
+    <text macro="published"/>
+  </group>
+</macro>
+
+
+<macro name="chapter-author">
+  <names variable="author">
+    <name form="long" and="text" initialize-with=". " delimiter=", " delimiter-precedes-last="always"/>
+  </names>
+</macro>
+
+<macro name="citation-book-chapter">
+  <group delimiter=". ">
+    <text macro="chapter-author"/>
+    <date variable="issued" form="text" date-parts="year"/>
+    <text variable="title" prefix="En " suffix=", "/>
+    <text macro="editor"/>
+    <text variable="container-title" font-style="italic"/>
+    <text variable="page" prefix="pp. "/>
+    <text macro="published"/>
+  </group>
+</macro>
+
+
+<macro name="web-title">
+  <text variable="title"/>
+</macro>
+
+<macro name="accessed">
+  <group prefix="Accedido el " delimiter=", ">
+    <date variable="accessed">
+      <date-part name="day" suffix=" de "/>
+      <date-part name="month" form="long" suffix=" de "/>
       <date-part name="year"/>
     </date>
-  </macro>
-  
-  <macro name="title">
-    <text variable="title" font-style="italic"/>
-  </macro>
-  
-  <macro name="publisher">
-    <group delimiter=": ">
-      <text variable="publisher-place"/>
-      <text variable="publisher"/>
-    </group>
-  </macro>
+  </group>
+</macro>
 
-  <macro name="access">
-    <group prefix="Accedido el " delimiter=", ">
-      <date variable="accessed" form="text"/>
-      <text variable="URL" prefix="desde "/>
+<macro name="citation-web-page">
+  <group delimiter=". ">
+    <text macro="web-title"/>
+    <text macro="accessed"/>
+    <text variable="URL" prefix="desde "/>
+  </group>
+</macro>
+
+
+<macro name="citation-online-book">
+  <group delimiter=". ">
+    <text macro="author-single"/>
+    <date variable="issued" form="text" date-parts="year"/>
+    <text variable="title" font-style="italic"/>
+    <text macro="accessed"/>
+    <text variable="URL" prefix="desde "/>
+  </group>
+</macro>
+
+
+<macro name="journal-article-title">
+  <text variable="title"/>
+</macro>
+
+<macro name="journal-info">
+  <group delimiter=", ">
+    <text variable="container-title" font-style="italic"/>
+    <group delimiter=" ">
+      <text variable="volume" prefix="vol. "/>
+      <text variable="issue" prefix="no. "/>
     </group>
-  </macro>
-  
-  <!-- Citation Layout -->
-  <citation>
-    <layout delimiter=". ">
-      <text macro="author"/>
-      <text macro="issued"/>
-      <text macro="title"/>
-      <text macro="publisher"/>
-    </layout>
-  </citation>
-  
-  <!-- Bibliography Layout -->
-  <bibliography>
-    <layout delimiter=". ">
-      <text macro="author"/>
-      <text macro="issued"/>
-      <text macro="title"/>
-      <text macro="publisher"/>
-      <text macro="access"/>
-    </layout>
-  </bibliography>
-</style>
+    <text variable="page" prefix="p. "/>
+  </group>
+</macro>
+
+<macro name="citation-journal-article-web">
+  <group delimiter=". ">
+    <text macro="author-multiple"/>
+    <text macro="journal-article-title"/>
+    <text macro="journal-info"/>
+    <text macro="accessed"/>
+    <text variable="URL" prefix="Disponible: "/>
+  </group>
+</macro>
+
